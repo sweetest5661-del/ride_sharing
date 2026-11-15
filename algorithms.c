@@ -1,14 +1,7 @@
-/*
- * Beginner-friendly C algorithms for the SmartRide example.
- *
- * This file uses arrays, loops, if/else, functions, structures, pointers,
- * strings, and recursion. It avoids C++ code and advanced shortcuts.
- */
+
 
 #include <stdio.h>
 #include <string.h>
-
-#define C_MAX_LOCATIONS 10
 
 struct CMatchCandidate
 {
@@ -23,7 +16,7 @@ struct CMatchCandidate
     double savings;
 };
 
-/* Remove spaces, tabs, and line breaks from the start and end of a string. */
+
 void c_str_trim(char str[])
 {
     int length = 0;
@@ -71,7 +64,7 @@ void c_str_trim(char str[])
     str[newIndex] = '\0';
 }
 
-/* Change English lowercase letters to uppercase. */
+
 void c_str_to_upper(char str[])
 {
     int i;
@@ -90,7 +83,7 @@ void c_str_to_upper(char str[])
     }
 }
 
-/* Compare two strings without treating uppercase and lowercase as different. */
+
 int c_str_case_cmp(const char str1[], const char str2[])
 {
     int i = 0;
@@ -145,7 +138,7 @@ int c_str_case_cmp(const char str1[], const char str2[])
     return (int)char1 - (int)char2;
 }
 
-/* Search each array item in order. Return -1 when the value is not found. */
+
 int c_linear_search_int(const int arr[], int size, int target)
 {
     int i;
@@ -160,7 +153,7 @@ int c_linear_search_int(const int arr[], int size, int target)
     return -1;
 }
 
-/* Search a sorted array by repeatedly checking the middle item. */
+
 int c_binary_search_int(const int arr[], int size, int target)
 {
     int low = 0;
@@ -187,7 +180,7 @@ int c_binary_search_int(const int arr[], int size, int target)
     return -1;
 }
 
-/* Swap two candidate structures using a temporary structure. */
+
 void swap_candidates(struct CMatchCandidate *first,
                      struct CMatchCandidate *second)
 {
@@ -220,7 +213,6 @@ int partition_candidates(struct CMatchCandidate arr[], int low, int high)
     return i + 1;
 }
 
-/* QuickSort uses recursion to sort candidates from highest score to lowest. */
 void c_quicksort_candidates(struct CMatchCandidate arr[], int low, int high)
 {
     int pivotIndex;
@@ -233,7 +225,7 @@ void c_quicksort_candidates(struct CMatchCandidate arr[], int low, int high)
     }
 }
 
-/* Copy candidates whose score meets the minimum. outArr needs enough space. */
+
 int c_filter_candidates(const struct CMatchCandidate inArr[], int inCount,
                         struct CMatchCandidate outArr[], int minScore)
 {
@@ -251,52 +243,7 @@ int c_filter_candidates(const struct CMatchCandidate inArr[], int inCount,
     return count;
 }
 
-/* Dijkstra shortest path for nonnegative road distances.
-   A zero in graph means there is no direct road between two locations. */
-double c_dijkstra(const double graph[][C_MAX_LOCATIONS], int count,
-                  int start, int destination)
-{
-    double distance[C_MAX_LOCATIONS];
-    int visited[C_MAX_LOCATIONS];
-    int i, j, current;
 
-    if (count <= 0 || count > C_MAX_LOCATIONS || start < 0 ||
-        destination < 0 || start >= count || destination >= count)
-    {
-        return -1;
-    }
-    for (i = 0; i < count; i++)
-    {
-        distance[i] = 1000000000.0;
-        visited[i] = 0;
-    }
-    distance[start] = 0;
-
-    for (i = 0; i < count; i++)
-    {
-        current = -1;
-        for (j = 0; j < count; j++)
-        {
-            if (visited[j] == 0 &&
-                (current == -1 || distance[j] < distance[current]))
-                current = j;
-        }
-        if (current == -1 || distance[current] == 1000000000.0) break;
-        if (current == destination) return distance[destination];
-
-        visited[current] = 1;
-        for (j = 0; j < count; j++)
-        {
-            if (graph[current][j] > 0 && visited[j] == 0 &&
-                distance[current] + graph[current][j] < distance[j])
-                distance[j] = distance[current] + graph[current][j];
-        }
-    }
-    return -1;
-}
-
-/* Small main function so the file can be compiled and run on its own. */
-#ifndef ALGORITHMS_NO_MAIN
 int main(void)
 {
     char city[32] = "  ISBT  ";
@@ -346,15 +293,5 @@ int main(void)
                candidates[i].savings);
     }
 
-    {
-        double graph[C_MAX_LOCATIONS][C_MAX_LOCATIONS] = {{0}};
-        graph[0][1] = 7;
-        graph[0][2] = 2;
-        graph[2][1] = 1;
-        printf("Dijkstra shortest distance from 0 to 1: %.1f km\n",
-               c_dijkstra(graph, 3, 0, 1));
-    }
-
     return 0;
 }
-#endif

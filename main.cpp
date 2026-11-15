@@ -1,24 +1,12 @@
-/*
- * SmartRide - beginner-friendly C++ version
- *
- * Uses classes, objects, arrays, loops, if/else, and member functions.
- * It does not use inheritance, virtual functions, pointers, templates,
- * or file handling. Information is kept while the program is running.
- */
+
 
 #include <iostream>
 #include <string>
-#define ALGORITHMS_NO_MAIN
-#include "algorithms.c"
 using namespace std;
 
 const int MAX_RIDERS = 50;
 const int MAX_DRIVERS = 30;
 const int MAX_RIDES = 100;
-const int LOCATION_COUNT = 6;
-const string LOCATION_NAMES[LOCATION_COUNT] = {
-    "Clock Tower", "ISBT", "Rajpur Road", "Prem Nagar", "FRI", "Dilaram Bazaar"
-};
 
 class Rider
 {
@@ -129,7 +117,6 @@ private:
     Rider riders[MAX_RIDERS];
     Driver drivers[MAX_DRIVERS];
     Ride rides[MAX_RIDES];
-    double roadMap[C_MAX_LOCATIONS][C_MAX_LOCATIONS];
     int riderCount;
     int driverCount;
     int rideCount;
@@ -137,47 +124,15 @@ private:
     int nextDriverNumber;
     int nextRideNumber;
 
-    int findLocationIndex(string name)
-    {
-        int i;
-        for (i = 0; i < LOCATION_COUNT; i++)
-        {
-            if (LOCATION_NAMES[i] == name) return i;
-        }
-        return -1;
-    }
-
-    void addRoad(int first, int second, double distance)
-    {
-        roadMap[first][second] = distance;
-        roadMap[second][first] = distance;
-    }
-
 public:
     RideSharingSystem()
     {
-        int i, j;
         riderCount = 0;
         driverCount = 0;
         rideCount = 0;
         nextRiderNumber = 1;
         nextDriverNumber = 1;
         nextRideNumber = 1;
-
-        for (i = 0; i < C_MAX_LOCATIONS; i++)
-        {
-            for (j = 0; j < C_MAX_LOCATIONS; j++) roadMap[i][j] = 0;
-        }
-
-        /* Sample Dehradun road distances in kilometres. */
-        addRoad(0, 1, 6);
-        addRoad(0, 2, 5);
-        addRoad(2, 5, 3);
-        addRoad(5, 1, 9);
-        addRoad(0, 3, 8);
-        addRoad(3, 4, 2);
-        addRoad(4, 1, 5);
-        addRoad(5, 4, 7);
     }
 
     int findRiderIndex(string riderId)
@@ -235,7 +190,6 @@ public:
         getline(cin, newRider.name);
         cout << "Enter phone number: ";
         getline(cin, newRider.phone);
-        cout << "Map locations: Clock Tower, ISBT, Rajpur Road, Prem Nagar, FRI, Dilaram Bazaar\n";
         cout << "Enter pickup location: ";
         getline(cin, newRider.source);
         cout << "Enter destination: ";
@@ -322,8 +276,6 @@ public:
         int driverIndex;
         int i;
         double distanceKm;
-        int sourceIndex;
-        int destinationIndex;
 
         cout << "Enter your Rider ID: ";
         getline(cin, riderId);
@@ -354,22 +306,14 @@ public:
             }
         }
 
-        sourceIndex = findLocationIndex(riders[riderIndex].source);
-        destinationIndex = findLocationIndex(riders[riderIndex].destination);
-        if (sourceIndex == -1 || destinationIndex == -1)
+        cout << "Enter trip distance in kilometres: ";
+        cin >> distanceKm;
+        cin.ignore(1000, '\n');
+        if (distanceKm <= 0)
         {
-            cout << "Pickup or destination is not on the sample map.\n";
+            cout << "Distance must be greater than zero.\n";
             return;
         }
-
-        distanceKm = c_dijkstra(roadMap, LOCATION_COUNT,
-                                sourceIndex, destinationIndex);
-        if (distanceKm < 0)
-        {
-            cout << "No route was found.\n";
-            return;
-        }
-        cout << "Shortest distance found by Dijkstra: " << distanceKm << " km\n";
 
         Ride newRide;
         newRide.id = "TR" + to_string(nextRideNumber);
