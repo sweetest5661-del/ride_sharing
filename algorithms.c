@@ -191,7 +191,7 @@ void swap_candidates(struct CMatchCandidate *first,
     *second = temporary;
 }
 
-/* Put higher score first; for equal scores, put higher savings first. */
+
 int partition_candidates(struct CMatchCandidate arr[], int low, int high)
 {
     int pivotScore = arr[high].score;
