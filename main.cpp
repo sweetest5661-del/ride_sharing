@@ -323,7 +323,7 @@ public:
         newRide.distanceKm = distanceKm;
         newRide.shared = sharedRide;
 
-        /* Example fare: Rs. 12 per kilometre for a solo ride. */
+        
         newRide.fare = distanceKm * 12;
         if (sharedRide == true)
         {
