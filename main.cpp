@@ -232,8 +232,7 @@ public:
         cout << "Driver registered. Driver ID is " << newDriver.id << "\n";
     }
 
-    void showRiders()
-    {
+    void showRiders()    {
         int i;
         if (riderCount == 0)
         {
